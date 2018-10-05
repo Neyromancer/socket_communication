@@ -42,7 +42,7 @@ class Connection {
   };
 
  private:
-  State is_connected;
+  State is_connected_;
 };
 }  // namespace connection
 }  // namespace socket_communication
