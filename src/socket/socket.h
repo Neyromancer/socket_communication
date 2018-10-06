@@ -45,6 +45,8 @@ class Socket {
 
   bool Exist() const noexcept;
 
+  bool ShutDown();
+
  private:
   int32_t socketfd_;
   uint32_t domain_;
