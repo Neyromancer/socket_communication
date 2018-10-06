@@ -15,7 +15,11 @@ class Socket {
  public:
   explicit Socket();
 
-  explicit Socket(int32_t);
+  /// \brief Construct socket object.
+  /// \param[in] domain Socket domain.
+  /// \param[in] type Socket type.
+  /// \param[in] protocol Socket protocol.
+  explicit Socket(uint32_t domain, uint32_t type, uint32_t protocol);
 
   ~Socket();
 
@@ -33,8 +37,17 @@ class Socket {
 
   int32_t GetSocket() const noexcept;
 
+  /// \brief Create socket object.
+  /// \param[in] domain Socket domain.
+  /// \param[in] type Socket type.
+  /// \param[in] protocol Socket protocol.
+  void CreateSocket(uint32_t domain, uint32_t type, uint32_t protocol);
+
  private:
   int32_t socketfd_;
+  uint32_t domain_;
+  uint32_t type_;
+  uint32_t protocol_;
 };
 
 }  // namesapce socket
