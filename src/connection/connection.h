@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <string>
 
+#include "socket/socket.h"
+
 namespace socket_communication {
 namespace connection {
 
