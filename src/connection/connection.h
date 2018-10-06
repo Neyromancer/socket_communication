@@ -7,6 +7,7 @@
 #define SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
 
 #include <cstdint>
+#include <string>
 
 namespace socket_communication {
 namespace connection {
@@ -36,6 +37,31 @@ class Connection {
 
   bool IsConnected() const noexcept;
 
+  /// \brief Set IP.
+  /// \param[in] ip_addr IP adress (string).
+  void SetIp(const std::string &ip_addr);
+  void SetIp(std::string &&ip_addr);
+
+  /// \brief Set IP.
+  /// \param[in] ip_addr IP adress (32-bit data).
+  void SetIp(uint32_t ip_addr);
+
+  /// \brief Return IP address.
+  /// \return ip_addr IP adress (string).
+  std::string GetIp() const noexcept;
+
+  /// \brief Return IP address.
+  /// \return IP adress (32-bit data).
+  uint32_t GetIp() const noexcept;
+
+  /// \brief Set port.
+  /// \param[in] port Port.
+  void SetPort(int32_t port);
+
+  /// \brief Return port.
+  /// \return Port.
+  uint16_t GetPort() const noexcept;
+
   enum class State : uint16_t {
     disconnected = 0,
     connected
@@ -43,6 +69,9 @@ class Connection {
 
  private:
   State is_connected_;
+  Socket socket_;
+  uint32_t ip_;
+  uint16_t port_;
 };
 }  // namespace connection
 }  // namespace socket_communication
