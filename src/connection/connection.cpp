@@ -1,7 +1,7 @@
 /// \file connection.cpp
 /// \brief Abstract class implementation.
 /// \author
-/// \date 05.10.2018
+/// \date 06.10.2018
 
 #include "connection/connection.h"
 

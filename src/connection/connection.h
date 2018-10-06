@@ -1,7 +1,7 @@
 /// \file connection.h
 /// \brief Abstract class which implements connection.
 /// \author
-/// \date 05.10.2018
+/// \date 06.10.2018
 
 #ifndef SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
 #define SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
