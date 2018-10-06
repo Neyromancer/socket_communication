@@ -1,7 +1,7 @@
 /// \file socket.h
 /// \brief Class which represents socket.
 /// \author
-/// \date 05.10.2018
+/// \date 06.10.2018
 
 #ifndef SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
 #define SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
@@ -42,6 +42,8 @@ class Socket {
   /// \param[in] type Socket type.
   /// \param[in] protocol Socket protocol.
   void CreateSocket(uint32_t domain, uint32_t type, uint32_t protocol);
+
+  bool Exist() const noexcept;
 
  private:
   int32_t socketfd_;

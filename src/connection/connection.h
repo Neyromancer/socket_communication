@@ -1,7 +1,7 @@
 /// \file connection.h
 /// \brief Abstract class which implements connection.
 /// \author
-/// \date 05.10.2018
+/// \date 06.10.2018
 
 #ifndef SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
 #define SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
@@ -9,12 +9,19 @@
 #include <cstdint>
 #include <string>
 
+#include "socket/socket.h"
+
 namespace socket_communication {
 namespace connection {
 
 class Connection {
  public:
   Connection();
+  
+  /// \brief Connection class constructor.
+  /// \param[in] ip_addr IP.
+  /// \param[in] port Port.
+  Connection(const std::string &ip_addr, int32_t port);
   virtual ~Connection();
 
   Connection(const Connection &) = delete;
@@ -61,6 +68,10 @@ class Connection {
   /// \brief Return port.
   /// \return Port.
   uint16_t GetPort() const noexcept;
+
+  void SetSocket(uint32_t domain, uint32_t type, uint32_t protocol);
+
+  Socket GetScoket() const noexcept;
 
   enum class State : uint16_t {
     disconnected = 0,
