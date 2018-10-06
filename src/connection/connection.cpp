@@ -11,10 +11,19 @@
 namespace socket_communication {
 namespace connection {
 
-Connection::Connection() : is_connected_{State.connected} {}
+Connection::Connection() : is_connected_{State.connected}, socket_{} {
+  SetIp("127.0.0.1");
+  SetPort(6600);
+}
+
+Connection::Connection(const std::string &ip_addr, int32_t port) 
+    : is_connected_{State.connected}, socket_{} {
+  SetIp(ip_addr);
+  SetPort(port);
+}
 
 bool Connection::Reconnect() {
-  if (!IsConnected())
+  if (IsConnected())
     if (!Disconnect())
       return false;
 
@@ -70,6 +79,15 @@ void Connection::SetPort(int32_t port) {
 
 uint16_t Connection::GetPort() const noexcept {
   return port_;
+}
+
+void Connection::SetSocket(uint32_t domain, uint32_t type, uint32_t protocol) {
+  if (!socket_.Exist())
+    socket._CreateSocket(domain, type, protocol);
+}
+
+Socket Connection::GetSocket() const noexcept {
+  return socket_;
 }
 
 }  // namespace connection

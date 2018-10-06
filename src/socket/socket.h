@@ -43,6 +43,8 @@ class Socket {
   /// \param[in] protocol Socket protocol.
   void CreateSocket(uint32_t domain, uint32_t type, uint32_t protocol);
 
+  bool Exist() const noexcept;
+
  private:
   int32_t socketfd_;
   uint32_t domain_;
