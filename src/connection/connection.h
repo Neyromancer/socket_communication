@@ -35,9 +35,18 @@ class Connection {
 
   virtual bool Connect() = 0;
 
-  virtual bool Disconnect() = 0;
+  virtual bool Disconnect(const Socket &socket) = 0;
 
   virtual bool Accept() = 0;
+
+  /// \brief Send data.
+  /// \param[in] data Data to send.
+  /// \return Result of sending data.
+  virtual bool Send(std::string &data) const = 0;
+
+  /// \brief Receive data.
+  /// \return Received data.
+  virtual std::string Receive() const = 0;
 
   bool Reconnect();
 
@@ -54,7 +63,7 @@ class Connection {
 
   /// \brief Return IP address.
   /// \return ip_addr IP adress (string).
-  std::string GetIp() const noexcept;
+  std::string GetIpName() const noexcept;
 
   /// \brief Return IP address.
   /// \return IP adress (32-bit data).
