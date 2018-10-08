@@ -1,7 +1,7 @@
 /// \file connection.h
 /// \brief Abstract class which implements connection.
 /// \author
-/// \date 06.10.2018
+/// \date 08.10.2018
 
 #ifndef SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
 #define SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
@@ -29,19 +29,26 @@ class Connection {
 
   Connection(Connection &&) = default;
 
-  Connection &operator=(Connection &) = delete;
+  Connection &operator=(const Connection &) = delete;
 
   Connection &operator=(Connection &&) = default;
 
   virtual bool Connect() = 0;
 
-  virtual bool Disconnect() = 0;
+  virtual bool Disconnect(const Socket &socket) = 0;
 
   virtual bool Accept() = 0;
 
-  virtual bool Reconnect() = 0;
+  /// \brief Send data.
+  /// \param[in] data Data to send.
+  /// \return Result of sending data.
+  virtual bool Send(std::string &data) const = 0;
 
-  void SetState(State state);
+  /// \brief Receive data.
+  /// \return Received data.
+  virtual std::string Receive() const = 0;
+
+  bool Reconnect();
 
   bool IsConnected() const noexcept;
 
@@ -56,7 +63,7 @@ class Connection {
 
   /// \brief Return IP address.
   /// \return ip_addr IP adress (string).
-  std::string GetIp() const noexcept;
+  std::string GetIpName() const noexcept;
 
   /// \brief Return IP address.
   /// \return IP adress (32-bit data).
@@ -80,6 +87,7 @@ class Connection {
   uint32_t ip_;
   uint16_t port_;
 };
+
 }  // namespace connection
 }  // namespace socket_communication
 

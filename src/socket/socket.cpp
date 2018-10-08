@@ -17,7 +17,6 @@ Socket::Socket(uint32_t domain, uint32_t type, uint32_t protocol) {
 Socket::~Socket() {
   if (Exist())
     close(socketfd_);
-  SetSocket(-1);
 }
 
 void SetSocket(int32_t socket) {
@@ -39,6 +38,14 @@ void CreateSocket(uint32_t domain, uint32_t type, uint32_t protocol) {
 
 inline bool Socket::Exist() const noexcept {
   return socketfd_ != -1;
+}
+
+bool ShutDown() {
+  return true;
+}
+
+bool SetNoBlocking() {
+  return true;
 }
 
 }

@@ -24,11 +24,11 @@ Connection::Connection(const std::string &ip_addr, int32_t port)
 }
 
 bool Connect() {
-  is_connected = true;
+  return (is_connected = true);
 }
 
-bool Disconnect() {
-  is_connected = false;
+bool Disconnect(Socket socket) {
+  return (is_connected = false);
 }
 
 bool Connection::Reconnect() {
@@ -62,14 +62,15 @@ void Connection::SetIp(uint32_t ip_addr) {
   ip_ = ip_addr;
 }
 
-std::string Connection::GetIp() const noexcept {
-  char ip_buf[INET_ADDRSTRLEN] {};
+std::string Connection::GetIpName() const noexcept {
+  char ip_buf[INET_ADDRSTRLEN]{};
+  std::string str{};
   if (!inet_ntop(socket_.GetDomain(), ip_, INET_ADDRSTRLEN))
-    return std::string(ip_buf);
-  return std::string();
+    str = std::string(ip_buf);
+  return std::move(str);
 }
 
-uint32_t Connection::GetIp() const noexcept {
+inline uint32_t Connection::GetIp() const noexcept {
   return ip_;
 }
 
