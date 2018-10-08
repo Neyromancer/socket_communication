@@ -22,6 +22,7 @@ class Connection {
   /// \param[in] ip_addr IP.
   /// \param[in] port Port.
   Connection(const std::string &ip_addr, int32_t port);
+
   virtual ~Connection();
 
   Connection(const Connection &) = delete;
@@ -73,13 +74,8 @@ class Connection {
 
   Socket GetScoket() const noexcept;
 
-  enum class State : uint16_t {
-    disconnected = 0,
-    connected
-  };
-
  private:
-  State is_connected_;
+  bool is_connected_;
   Socket socket_;
   uint32_t ip_;
   uint16_t port_;

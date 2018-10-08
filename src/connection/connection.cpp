@@ -1,7 +1,7 @@
 /// \file connection.cpp
 /// \brief Abstract class implementation.
 /// \author
-/// \date 06.10.2018
+/// \date 08.10.2018
 
 #include "connection/connection.h"
 
@@ -11,15 +11,24 @@
 namespace socket_communication {
 namespace connection {
 
-Connection::Connection() : is_connected_{State.connected}, socket_{} {
+Connection::Connection() : is_connected_{false}, socket_{} {
   SetIp("127.0.0.1");
   SetPort(6600);
 }
 
 Connection::Connection(const std::string &ip_addr, int32_t port) 
-    : is_connected_{State.connected}, socket_{} {
+    : is_connected_{false} {
   SetIp(ip_addr);
   SetPort(port);
+  socket_.CreateSocket(AF_INET, SOCK_DGRAM, 0);
+}
+
+bool Connect() {
+  is_connected = true;
+}
+
+bool Disconnect() {
+  is_connected = false;
 }
 
 bool Connection::Reconnect() {
@@ -30,12 +39,8 @@ bool Connection::Reconnect() {
   return Connect();
 }
 
-void Connection::SetState(State state) {
-  is_connected = state;
-}
-
 inline bool Connection::IsConnected() {
-  return is_connected == State.connected;
+  return is_connected;
 }
 
 void Connection::SetIp(const std::string &ip_addr) {
@@ -77,7 +82,7 @@ void Connection::SetPort(int32_t port) {
     port_ = 6600;
 }
 
-uint16_t Connection::GetPort() const noexcept {
+inline uint16_t Connection::GetPort() const noexcept {
   return port_;
 }
 
@@ -86,7 +91,7 @@ void Connection::SetSocket(uint32_t domain, uint32_t type, uint32_t protocol) {
     socket._CreateSocket(domain, type, protocol);
 }
 
-Socket Connection::GetSocket() const noexcept {
+inline Socket Connection::GetSocket() const noexcept {
   return socket_;
 }
 
