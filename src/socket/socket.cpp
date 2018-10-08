@@ -1,14 +1,14 @@
 /// \file socket.cpp
 /// \brief Socket class implementation
 /// \author
-/// \date 06.10.2018
+/// \date 08.10.2018
 
 #include <sys/socket.h>
 
 namespace socket_communication {
 namespace socket {
 
-Socket::Socket() : socketfd_{-1}, domain_{0}, type_{0}, protocol_{0} {}
+Socket::Socket() : socketfd_{-1}, domain_{-1}, type_{-1}, protocol_{-1} {}
 
 Socket::Socket(uint32_t domain, uint32_t type, uint32_t protocol) {
   CreateSocket(domain, type, protocol);
