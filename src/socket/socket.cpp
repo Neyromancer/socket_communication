@@ -40,5 +40,13 @@ inline bool Socket::Exist() const noexcept {
   return socketfd_ != -1;
 }
 
+bool ShutDown() {
+  return true;
+}
+
+bool SetNoBlocking() {
+  return true;
+}
+
 }
 }

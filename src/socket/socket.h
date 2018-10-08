@@ -47,6 +47,8 @@ class Socket {
 
   bool ShutDown();
 
+  bool SetNoBlocking();
+
  private:
   int32_t socketfd_;
   uint32_t domain_;
