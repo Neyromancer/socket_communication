@@ -24,11 +24,11 @@ Connection::Connection(const std::string &ip_addr, int32_t port)
 }
 
 bool Connect() {
-  is_connected = true;
+  return (is_connected = true);
 }
 
 bool Disconnect() {
-  is_connected = false;
+  return (is_connected = false);
 }
 
 bool Connection::Reconnect() {

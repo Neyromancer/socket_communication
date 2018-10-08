@@ -17,7 +17,6 @@ Socket::Socket(uint32_t domain, uint32_t type, uint32_t protocol) {
 Socket::~Socket() {
   if (Exist())
     close(socketfd_);
-  SetSocket(-1);
 }
 
 void SetSocket(int32_t socket) {
