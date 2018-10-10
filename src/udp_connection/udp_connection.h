@@ -1,7 +1,7 @@
 /// \file udp_connection.h
 /// \brief Class which represents UDP connection.
 /// \author
-/// \date 08.10.2018
+/// \date 10.10.2018
 
 #ifndef SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
 #define SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
@@ -9,11 +9,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include "connection/connectin.h"
+#include "connection/connection.h"
 #include "socket/socket.h"
 
 namespace socket_communication {
-namespace udp_connection {
+namespace connection {
+
 class UdpConnection : public Connection {
  public:
   UdpConnection();
@@ -23,33 +24,56 @@ class UdpConnection : public Connection {
   /// \param[n] port Port.
   UdpConnection(const std::string &ip_addr, int32_t port);
 
+  /// \brief UdpConnection destructor.
   ~UdpConnection();
 
-  UdpConnection(const UdpConnection &) = delete;
-  
-  UdpConnection(UdpConnection &&) = default;
+  /// \brief UdpConnection copy constructor.
+  /// \param[in] udp_connection UdpConnection object.
+  UdpConnection(const UdpConnection &udp_connection) = delete;
 
-  UdpConnection &operator=(const UdpConnection &) = delete;
+  /// \brief UdpConnection move constructor.
+  /// \param[in] udp_connection UdpConnection object. 
+  UdpConnection(UdpConnection &&udp_connection) = default;
 
-  UdpConnection &operator=(UdpConnection &&) =  default;
+  /// \brief UdpConnection copy assignment.
+  /// \param[in] udp_connection UdpConnection object. 
+  UdpConnection &operator=(const UdpConnection &udp_connection) = delete;
 
+  /// \brief UdpConnection move assignment.
+  /// \param[in] udp_connection UdpConnection object. 
+  UdpConnection &operator=(UdpConnection &&udp_connectino) =  default;
+
+  /// \brief Setup connection.
+  /// \return Result of setting connection.
   bool Connect() override;
 
-  bool Disconnect(const Socket &socket) override;
+  /// \brief Disconnect.
+  /// \param[in] Socket.
+  /// \return Result of disconnecting.
+  bool Disconnect(socket::Socket &socket) override;
 
-  bool Accept override;
+  /// \brief Accept incoming connection.
+  /// \return Result of accepting incoming connection.
+  bool Accept() override;
 
+  /// \brief Send data over connection.
+  /// param[in] data Data.
+  /// \return Result of sending data over connection.
   bool Send(std::string &data) const override;
-  
+ 
+  /// \brief Receive data over connection.
+  /// \return Received data. 
   std::string Receive() const override;
 
  private:
+  void SetSockaddrStruct(struct sockaddr_in *);
+
   struct sockaddr_in serv_;
   uint16_t domain_;
 };
 
+} // namespace connection
 } // namespace socket_community
-} // namespace udp_connection
 
 #endif // SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
 
