@@ -35,7 +35,7 @@ class Connection {
 
   virtual bool Connect() = 0;
 
-  virtual bool Disconnect(const Socket &socket) = 0;
+  virtual bool Disconnect(socket::Socket &socket) = 0;
 
   virtual bool Accept() = 0;
 
@@ -50,7 +50,9 @@ class Connection {
 
   bool Reconnect();
 
-  bool IsConnected() const noexcept;
+  inline bool IsConnected() const noexcept {
+    return is_connected_;
+  }
 
   /// \brief Set IP.
   /// \param[in] ip_addr IP adress (string).
@@ -67,7 +69,9 @@ class Connection {
 
   /// \brief Return IP address.
   /// \return IP adress (32-bit data).
-  uint32_t GetIp() const noexcept;
+  inline uint32_t GetIp() const noexcept {
+    return ip_;
+  }
 
   /// \brief Set port.
   /// \param[in] port Port.
@@ -75,15 +79,19 @@ class Connection {
 
   /// \brief Return port.
   /// \return Port.
-  uint16_t GetPort() const noexcept;
+  inline uint16_t GetPort() const noexcept {
+    return port_;
+  }
 
   void SetSocket(uint32_t domain, uint32_t type, uint32_t protocol);
 
-  Socket GetScoket() const noexcept;
+  inline const socket::Socket &GetSocket() const noexcept {
+    return socket_;
+  }
 
  private:
   bool is_connected_;
-  Socket socket_;
+  socket::Socket socket_;
   uint32_t ip_;
   uint16_t port_;
 };

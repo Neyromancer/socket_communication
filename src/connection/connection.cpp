@@ -6,7 +6,9 @@
 #include "connection/connection.h"
 
 #include <arpa/inet.h>
+
 #include <cstring>
+#include <utility>
 
 namespace socket_communication {
 namespace connection {
@@ -17,43 +19,41 @@ Connection::Connection() : is_connected_{false}, socket_{} {
 }
 
 Connection::Connection(const std::string &ip_addr, int32_t port) 
-    : is_connected_{false} {
+    : is_connected_{false}, socket_{} {
   SetIp(ip_addr);
   SetPort(port);
-  socket_.CreateSocket(AF_INET, SOCK_DGRAM, 0);
+ // socket_.CreateSocket(AF_INET, SOCK_DGRAM, 0);
 }
 
-bool Connect() {
-  return (is_connected = true);
+bool Connection::Connect() {
+  return (is_connected_ = true);
 }
 
-bool Disconnect(Socket socket) {
-  return (is_connected = false);
+bool Connection::Disconnect(socket::Socket &socket) {
+  socket.~Socket();
+  is_connected_ = false;
+  return (is_connected_ == false);
 }
 
 bool Connection::Reconnect() {
   if (IsConnected())
-    if (!Disconnect())
+    if (!Disconnect(socket_))
       return false;
 
   return Connect();
 }
 
-inline bool Connection::IsConnected() {
-  return is_connected;
-}
-
 void Connection::SetIp(const std::string &ip_addr) {
-  if (inet_pton(socket_.GetDomain(), ip_addr.c_str(), ip_) != 1) {
+  if (inet_pton(socket_.GetDomain(), ip_addr.c_str(), &ip_) != 1) {
     // check and if fail log this situation
-    inet_pton(socket_.GetDomain(), "127.0.0.1", ip_);
+    inet_pton(socket_.GetDomain(), "127.0.0.1", &ip_);
   }
 }
 
 void Connection::SetIp(std::string &&ip_addr) {
-  if (inet_pton(socket_.GetDomain(), ip_addr.c_str(), ip_) != 1) {
+  if (inet_pton(socket_.GetDomain(), ip_addr.c_str(), &ip_) != 1) {
     // check and if fail log this situation
-    inet_pton(socket_.GetDomain(), "127.0.0.1", ip_);
+    inet_pton(socket_.GetDomain(), "127.0.0.1", &ip_);
   }
 }
 
@@ -65,13 +65,9 @@ void Connection::SetIp(uint32_t ip_addr) {
 std::string Connection::GetIpName() const noexcept {
   char ip_buf[INET_ADDRSTRLEN]{};
   std::string str{};
-  if (!inet_ntop(socket_.GetDomain(), ip_, INET_ADDRSTRLEN))
+  if (!inet_ntop(socket_.GetDomain(), &ip_, INET_ADDRSTRLEN))
     str = std::string(ip_buf);
   return std::move(str);
-}
-
-inline uint32_t Connection::GetIp() const noexcept {
-  return ip_;
 }
 
 // i want to know if this method called with
@@ -83,17 +79,10 @@ void Connection::SetPort(int32_t port) {
     port_ = 6600;
 }
 
-inline uint16_t Connection::GetPort() const noexcept {
-  return port_;
-}
-
 void Connection::SetSocket(uint32_t domain, uint32_t type, uint32_t protocol) {
-  if (!socket_.Exist())
-    socket._CreateSocket(domain, type, protocol);
-}
-
-inline Socket Connection::GetSocket() const noexcept {
-  return socket_;
+  if (socket_.Exist())
+    Disconnect(socket_);
+  socket_.CreateSocket(domain, type, protocol);
 }
 
 }  // namespace connection
