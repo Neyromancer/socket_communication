@@ -1,7 +1,7 @@
 /// \file socket.h
 /// \brief Class which represents socket.
 /// \author
-/// \date 06.10.2018
+/// \date 11.10.2018
 
 #ifndef SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
 #define SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
@@ -9,7 +9,6 @@
 #include <cstdint>
 
 namespace socket_communication {
-namespace socket {
 
 class Socket {
  public:
@@ -24,25 +23,40 @@ class Socket {
   /// \param[in] type Socket type.
   /// \param[in] protocol Socket protocol.
   explicit Socket(uint32_t domain, uint32_t type, uint32_t protocol);
-
+  
+  /// \brief Class socket desctructor.
   ~Socket();
 
-  Socket(const Socket &) = delete;
+  /// \brief Copy constructor.
+  /// \param[in] socket Socket class object.
+  Socket(const Socket &socket) = default;
 
-  Socket(Socket &&) = default;
+  /// \brief Move constructor.
+  /// \param[in] socket Socket class object.
+  Socket(Socket &&socket) = default;
 
-  Socket &operator=(const Socket &) = delete;
+  /// \brief Copy assignment operator.
+  /// \param[in] socket Socket class object.
+  /// \return Socket class object.
+  Socket &operator=(const Socket &socket) = delete;
 
-  Socket &operator=(Socket &&) = default;
+  /// \brief Move assignment operator.
+  /// \param[in] socket Socket class object.
+  /// \return Socket class object.
+  Socket &operator=(Socket &&socket) = default;
 
   /// \brief Set Socket.
   /// \param[in] socket Socket file descriptor.
   void SetSocket(int32_t &&socket);
 
+  /// \brief Get socket file descriptor.
+  /// \return Socket file descriptor.
   inline const int32_t &GetSocket() const noexcept {
     return socketfd_;
   }
 
+  /// \brief Get domain.
+  /// \return Domain.
   inline uint32_t GetDomain() const noexcept {
     return domain_;
   }
@@ -53,6 +67,9 @@ class Socket {
   /// \param[in] protocol Socket protocol.
   void CreateSocket(uint32_t domain, uint32_t type, uint32_t protocol);
 
+
+  /// \brief Return result of checking if socket exist.
+  /// \return Result of the check if socket exist.
   inline bool Exist() const noexcept {
     return socketfd_ != -1;
   }
@@ -68,6 +85,6 @@ class Socket {
   int32_t protocol_;
 };
 
-}  // namesapce socket
 }  // namespace socket_communication
+
 #endif // SOCKET_COMMUNICATION_SOCKET_SOCKET_H_

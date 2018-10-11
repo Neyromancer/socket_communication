@@ -1,7 +1,9 @@
 /// \file socket.cpp
 /// \brief Socket class implementation
 /// \author
-/// \date 08.10.2018
+/// \date 11.10.2018
+
+#include "socket/socket.h"
 
 #include <sys/socket.h>
 #include <unistd.h>
@@ -9,7 +11,6 @@
 #include <utility>
 
 namespace socket_communication {
-namespace socket {
 
 Socket::Socket() : socketfd_{-1}, domain_{-1}, type_{-1}, protocol_{-1} {}
 
@@ -47,5 +48,4 @@ bool Socket::SetNoBlocking() {
   return true;
 }
 
-} // namespace socket
 } // namespace socket_communication
