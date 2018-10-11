@@ -1,7 +1,7 @@
 /// \file udp_connection.h
 /// \brief Class which represents UDP connection.
 /// \author
-/// \date 10.10.2018
+/// \date 11.10.2018
 
 #ifndef SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
 #define SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
@@ -13,7 +13,6 @@
 #include "socket/socket.h"
 
 namespace socket_communication {
-namespace connection {
 
 class UdpConnection : public Connection {
  public:
@@ -65,16 +64,15 @@ class UdpConnection : public Connection {
   /// \return Received data. 
   std::string Receive() const override;
 
- private:
-  void SetSockaddrStruct(struct sockaddr_in *);
+  void SetDomain(int32_t domain);
 
-  struct sockaddr_in serv_;
-  uint16_t domain_;
+ private:
+  void InitSockaddr();
+
+  struct sockaddr_in addr_;
+  int32_t domain_;
 };
 
-} // namespace connection
 } // namespace socket_community
 
 #endif // SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
-
-

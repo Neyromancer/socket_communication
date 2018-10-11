@@ -11,7 +11,6 @@
 #include <utility>
 
 namespace socket_communication {
-namespace connection {
 
 Connection::Connection() : is_connected_{false}, socket_{} {
   SetIp("127.0.0.1");
@@ -29,10 +28,13 @@ bool Connection::Connect() {
   return (is_connected_ = true);
 }
 
-bool Connection::Disconnect(socket::Socket &socket) {
-  socket.~Socket();
+bool Connection::Disconnect(socket::Socket socket) {
   is_connected_ = false;
-  return (is_connected_ == false);
+  if (!socket.Exist())
+   return is_connected;
+ 
+  socket.~Socket();
+  return !is_connected_;
 }
 
 bool Connection::Reconnect() {
@@ -85,5 +87,4 @@ void Connection::SetSocket(uint32_t domain, uint32_t type, uint32_t protocol) {
   socket_.CreateSocket(domain, type, protocol);
 }
 
-}  // namespace connection
 }  // namesapce socket_communication
