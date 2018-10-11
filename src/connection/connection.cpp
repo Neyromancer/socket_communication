@@ -29,8 +29,12 @@ bool Connection::Connect() {
 }
 
 bool Connection::Disconnect(socket::Socket socket) {
+  is_connected_ = false;
+  if (!socket.Exist())
+   return is_connected;
+ 
   socket.~Socket();
-  return !(is_connected_ = false);
+  return !is_connected_;
 }
 
 bool Connection::Reconnect() {

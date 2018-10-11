@@ -1,7 +1,7 @@
 /// \file udp_connection.cpp
 /// \brief UdpConnection class implementation.
 /// \author
-/// \date 10.10.2018
+/// \date 11.10.2018
 
 #include "udp_connection/udp_connection.h"
 
@@ -14,35 +14,37 @@
 #include <iostream> // added for debuggin
 
 namespace socket_communication {
-namespace udp_connection {
 
 UdpConnection::UdpConnection() : domain_{AF_INET} {
-  SetSockaddrStruct(&serv_);
+  InitSockaddr();
 }
 
 UdpConnection::UdpConnection(const std::string &ip_addr, int32_t port)
     : Connection(ip_addr, port), domain_{AF_INET} {
-  SetSockaddrStruct(&serv_);
+  InitSockaddr();
 }
 
 UdpConnection::~UdpConnection() {}
 
 bool UdpConnection::Connect() {
+  if (addr_.sin_port != htons(GetPort()))
+    InitSockaddr();
+
   auto result = false;
-  if (!connect(GetSocket().GetSocket(), (struct sockaddr *)&serv_, sizeof(serv_)))
+  if (!connect(GetSocket().GetSocket(), (struct sockaddr *)&addr_, 
+               sizeof(addr_)))
     result = Connection::Connect();
 
   return result;
 }
 
-bool UdpConnection::Disconnect(socket::Socket &socket) {
-  if (socket.Exist())
-    socket.~Socket();
-  return Connection::Disconnect(socket);
-}
-
 bool UdpConnection::Accept() {
+  if (addr_.sin_port != htons(GetPort()))
+    InitSockaddr();
+
+  auto result = false;
   std::cout << "accept" << std::endl;
+  return !result;
 }
 
 bool UdpConnection::Send(std::string &data) const {
@@ -64,8 +66,8 @@ bool UdpConnection::Send(std::string &data) const {
   } else {
     while (data_sz > 0) {
       auto data_sent = sendto(GetSocket().GetSocket(), data.c_str(), 
-                              data.size(), 0, (struct sockaddr *)&serv_, 
-                              sizeof(serv_));
+                              data.size(), 0, (struct sockaddr *)&addr_, 
+                              sizeof(addr_));
       if (data_sz < 0)
         break;
 
@@ -73,6 +75,7 @@ bool UdpConnection::Send(std::string &data) const {
       result = true;
     }
   }
+
   return result;
 }
 
@@ -81,12 +84,11 @@ std::string UdpConnection::Receive() const {
   return str;  
 }
 
-void UdpConnection::SetSockaddrStruct(struct sockaddr_in *addr) {
-  memset(addr, 0, sizeof(*addr));
-  addr->sin_family = domain_;
-  addr->sin_port = htons(GetPort());
-  addr->sin_addr.s_addr = GetIp();
+void UdpConnection::InitSockaddr() {
+  memset(&addr_, 0, sizeof(addr));
+  addr_.sin_family = domain_;
+  addr_.sin_port = htons(GetPort());
+  addr_.sin_addr.s_addr = GetIp();
 }
 
-} // namespace udp_socket
 } // namespace socket_communication
