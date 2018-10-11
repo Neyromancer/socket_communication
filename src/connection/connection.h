@@ -12,7 +12,6 @@
 #include "socket/socket.h"
 
 namespace socket_communication {
-namespace connection {
 
 class Connection {
  public:
@@ -35,7 +34,7 @@ class Connection {
 
   virtual bool Connect() = 0;
 
-  virtual bool Disconnect(socket::Socket &socket) = 0;
+  virtual bool Disconnect(socket::Socket socket);
 
   virtual bool Accept() = 0;
 
@@ -96,7 +95,6 @@ class Connection {
   uint16_t port_;
 };
 
-}  // namespace connection
 }  // namespace socket_communication
 
 #endif // SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
