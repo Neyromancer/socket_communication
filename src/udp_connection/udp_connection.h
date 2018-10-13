@@ -21,7 +21,7 @@ class UdpConnection : public Connection {
   /// \brief UdpConnection class constructor.
   /// \param[in] ip addr IP.
   /// \param[n] port Port.
-  UdpConnection(const std::string &ip_addr, int32_t port);
+  explicit UdpConnection(const std::string &ip_addr, int32_t port);
 
   /// \brief UdpConnection destructor.
   ~UdpConnection();
@@ -68,6 +68,8 @@ class UdpConnection : public Connection {
   /// \return Received data. 
   std::string Receive() const override;
 
+  /// \brief Set domain.
+  /// \param[in] domain Domain.
   void SetDomain(int32_t domain);
 
  private:
@@ -79,6 +81,6 @@ class UdpConnection : public Connection {
   int32_t backlog_;
 };
 
-} // namespace socket_community
+}  // namespace socket_community
 
 #endif // SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_

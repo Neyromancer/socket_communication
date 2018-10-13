@@ -48,4 +48,4 @@ bool Socket::SetNoBlocking() {
   return true;
 }
 
-} // namespace socket_communication
+}  // namespace socket_communication

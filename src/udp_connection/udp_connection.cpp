@@ -234,4 +234,4 @@ void UdpConnection::InitSockaddr() {
   addr_.sin_addr.s_addr = GetIp();
 }
 
-} // namespace socket_communication
+}  // namespace socket_communication
