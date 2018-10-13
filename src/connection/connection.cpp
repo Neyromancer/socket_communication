@@ -6,14 +6,15 @@
 #include "connection/connection.h"
 
 #include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
 
 #include <cstring>
 #include <utility>
 
 namespace socket_communication {
 
-Connection::Connection() : socket_{}, is_connected_{false} {
-  SetIp("127.0.0.1");
+Connection::Connection() : socket_{}, is_connected_{false}, ip_{INADDR_ANY} {
   SetPort(6600);
 }
 
@@ -31,7 +32,7 @@ bool Connection::Connect() {
 bool Connection::Disconnect(Socket socket) {
   is_connected_ = false;
   if (!socket.Exist())
-   return is_connected;
+   return is_connected_;
  
   socket.~Socket();
   return !is_connected_;
@@ -67,7 +68,7 @@ void Connection::SetIp(uint32_t ip_addr) {
 std::string Connection::GetIpName() const noexcept {
   char ip_buf[INET_ADDRSTRLEN]{};
   std::string str{};
-  if (!inet_ntop(socket_.GetDomain(), &ip_, INET_ADDRSTRLEN))
+  if (!inet_ntop(socket_.GetDomain(), &ip_, ip_buf, INET_ADDRSTRLEN))
     str = std::string(ip_buf);
   return std::move(str);
 }

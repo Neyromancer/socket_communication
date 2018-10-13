@@ -22,7 +22,7 @@ class Connection {
   /// \param[in] port Port.
   Connection(const std::string &ip_addr, int32_t port);
 
-  virtual ~Connection();
+  virtual ~Connection() = default;
 
   Connection(const Connection &) = delete;
 
@@ -43,7 +43,12 @@ class Connection {
   /// \brief Send data.
   /// \param[in] data Data to send.
   /// \return Result of sending data.
-  virtual bool Send(std::string &data) const = 0;
+  virtual bool Send(const std::string &data) = 0;
+
+  /// \brief Send data.
+  /// \param[in] data Data to send.
+  /// \return Result of sending data.
+  virtual bool Send(std::string &&data) = 0;
 
   /// \brief Receive data.
   /// \return Received data.

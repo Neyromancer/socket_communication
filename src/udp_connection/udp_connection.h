@@ -57,7 +57,12 @@ class UdpConnection : public Connection {
   /// \brief Send data over connection.
   /// param[in] data Data.
   /// \return Result of sending data over connection.
-  bool Send(std::string &data) const override;
+  bool Send(const std::string &data) override;
+
+  /// \brief Send data over connection.
+  /// param[in] data Data.
+  /// \return Result of sending data over connection.
+  bool Send(std::string &&data) override;
  
   /// \brief Receive data over connection.
   /// \return Received data. 
@@ -71,6 +76,7 @@ class UdpConnection : public Connection {
 
   struct sockaddr_in addr_;
   int32_t domain_;
+  int32_t backlog_;
 };
 
 } // namespace socket_community
