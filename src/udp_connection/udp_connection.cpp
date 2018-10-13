@@ -138,19 +138,14 @@ bool UdpConnection::Send(const std::string &data) {
   if (addr_.sin_port != htons(GetPort()) ||
       addr_.sin_addr.s_addr != GetIp()) {
     InitSockaddr();
-    std::cout << "InitSockaddr()" << std::endl;
   }
 
     while (total < data_sz) {
       if ((data_sent = sendto(GetSocket().GetSocket(), data_buf + total, 
                               data_sz - total, 0, (struct sockaddr *)&addr_, 
-                              sizeof(addr_))) < 0) {
-        std::cout << "couldn't send data | error " << std::strerror(errno) 
-                  << std::endl;
+                              sizeof(addr_))) < 0)
         break;
-      }
 
-      std::cout << "data_sent " << data_sent << std::endl;
       total += data_sent;
       result = true;
     }
@@ -182,19 +177,14 @@ bool UdpConnection::Send(std::string &&data) {
   if (addr_.sin_port != htons(GetPort()) ||
       addr_.sin_addr.s_addr != GetIp()) {
     InitSockaddr();
-    std::cout << "InitSockaddr()" << std::endl;
   }
 
     while (total < data_sz) {
       if ((data_sent = sendto(GetSocket().GetSocket(), data_buf + total, 
                               data_sz - total, 0, (struct sockaddr *)&addr_, 
-                              sizeof(addr_))) < 0) {
-        std::cout << "couldn't send data | error " << std::strerror(errno) 
-                  << std::endl;
+                              sizeof(addr_))) < 0)
         break;
-      }
 
-      std::cout << "data_sent " << data_sent << std::endl;
       total += data_sent;
       result = true;
     }

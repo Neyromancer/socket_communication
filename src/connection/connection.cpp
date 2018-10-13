@@ -22,7 +22,6 @@ Connection::Connection(const std::string &ip_addr, int32_t port)
     : socket_{}, is_connected_{false} {
   SetIp(ip_addr);
   SetPort(port);
- // socket_.CreateSocket(AF_INET, SOCK_DGRAM, 0);
 }
 
 bool Connection::Connect() {
