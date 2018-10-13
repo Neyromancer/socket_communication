@@ -1,7 +1,7 @@
 /// \file connection.h
 /// \brief Abstract class which implements connection.
 /// \author
-/// \date 08.10.2018
+/// \date 13.10.2018
 
 #ifndef SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
 #define SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
@@ -22,7 +22,7 @@ class Connection {
   /// \param[in] port Port.
   Connection(const std::string &ip_addr, int32_t port);
 
-  virtual ~Connection();
+  virtual ~Connection() = default;
 
   Connection(const Connection &) = delete;
 
@@ -34,14 +34,21 @@ class Connection {
 
   virtual bool Connect() = 0;
 
-  virtual bool Disconnect(socket::Socket socket);
+  virtual bool Listen() = 0;
 
-  virtual bool Accept() = 0;
+  virtual bool Disconnect(Socket socket);
+
+  virtual Socket Accept() = 0;
 
   /// \brief Send data.
   /// \param[in] data Data to send.
   /// \return Result of sending data.
-  virtual bool Send(std::string &data) const = 0;
+  virtual bool Send(const std::string &data) = 0;
+
+  /// \brief Send data.
+  /// \param[in] data Data to send.
+  /// \return Result of sending data.
+  virtual bool Send(std::string &&data) = 0;
 
   /// \brief Receive data.
   /// \return Received data.
@@ -84,13 +91,13 @@ class Connection {
 
   void SetSocket(uint32_t domain, uint32_t type, uint32_t protocol);
 
-  inline const socket::Socket &GetSocket() const noexcept {
+  inline const Socket &GetSocket() const noexcept {
     return socket_;
   }
 
  private:
+  Socket socket_;
   bool is_connected_;
-  socket::Socket socket_;
   uint32_t ip_;
   uint16_t port_;
 };

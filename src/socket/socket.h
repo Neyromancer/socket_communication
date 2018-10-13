@@ -1,7 +1,7 @@
 /// \file socket.h
 /// \brief Class which represents socket.
 /// \author
-/// \date 11.10.2018
+/// \date 13.10.2018
 
 #ifndef SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
 #define SOCKET_COMMUNICATION_SOCKET_SOCKET_H_

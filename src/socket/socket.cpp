@@ -1,7 +1,7 @@
 /// \file socket.cpp
 /// \brief Socket class implementation
 /// \author
-/// \date 11.10.2018
+/// \date 13.10.2018
 
 #include "socket/socket.h"
 
