@@ -1,7 +1,7 @@
 /// \file connection.cpp
 /// \brief Abstract class implementation.
 /// \author
-/// \date 08.10.2018
+/// \date 13.10.2018
 
 #include "connection/connection.h"
 
@@ -12,13 +12,13 @@
 
 namespace socket_communication {
 
-Connection::Connection() : is_connected_{false}, socket_{} {
+Connection::Connection() : socket_{}, is_connected_{false} {
   SetIp("127.0.0.1");
   SetPort(6600);
 }
 
 Connection::Connection(const std::string &ip_addr, int32_t port) 
-    : is_connected_{false}, socket_{} {
+    : socket_{}, is_connected_{false} {
   SetIp(ip_addr);
   SetPort(port);
  // socket_.CreateSocket(AF_INET, SOCK_DGRAM, 0);
@@ -28,7 +28,7 @@ bool Connection::Connect() {
   return (is_connected_ = true);
 }
 
-bool Connection::Disconnect(socket::Socket socket) {
+bool Connection::Disconnect(Socket socket) {
   is_connected_ = false;
   if (!socket.Exist())
    return is_connected;

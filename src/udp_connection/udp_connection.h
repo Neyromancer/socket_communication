@@ -1,7 +1,7 @@
 /// \file udp_connection.h
 /// \brief Class which represents UDP connection.
 /// \author
-/// \date 11.10.2018
+/// \date 13.10.2018
 
 #ifndef SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
 #define SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
@@ -46,14 +46,13 @@ class UdpConnection : public Connection {
   /// \return Result of setting connection.
   bool Connect() override;
 
-  /// \brief Disconnect.
-  /// \param[in] Socket.
-  /// \return Result of disconnecting.
-  bool Disconnect(socket::Socket &socket) override;
+  /// \brief Wait for incoming connectoin.
+  /// \return result of of listening for incoming connections.
+  bool Listen() override;
 
   /// \brief Accept incoming connection.
-  /// \return Result of accepting incoming connection.
-  bool Accept() override;
+  /// \return Socket class object.
+  Socket Accept() override;
 
   /// \brief Send data over connection.
   /// param[in] data Data.
@@ -67,6 +66,7 @@ class UdpConnection : public Connection {
   void SetDomain(int32_t domain);
 
  private:
+  /// \brief Initialize struct sockaddr_in.
   void InitSockaddr();
 
   struct sockaddr_in addr_;
