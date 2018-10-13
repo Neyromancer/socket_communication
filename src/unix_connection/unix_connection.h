@@ -1,5 +1,5 @@
 /// \file unix_connection.h
-/// \brief Class which represents Unix connection.
+/// \brief Class representing Unix connection.
 /// \author
 /// \date 13.10.2018
 
@@ -18,7 +18,7 @@ class UnixConnection : public Connection {
   explicit UnixConnection(const std::string &pathname);
 
   /// \brief UnixConnection destructor.
-  ~UnixConnection();
+  ~UnixConnection() = default;
 
   /// \brief UnixConnection copy constructor.
   /// \param[in] unix_connection UnixConnection object.
@@ -58,13 +58,19 @@ class UnixConnection : public Connection {
   /// \return Received data.
   std::string Receive() const override;
 
-  /// \brief set path.
+  /// \brief Set path.
   /// \param[in] path path.
   void SetPath(const std::string &path);
 
-  /// \brief set path.
+  /// \brief Set path.
   /// \param[in] path path.
   void SetPath(std::string &&path);
+
+  /// \brief Return path to a socket path.
+  /// \return Path to a socket.
+  std::string GetPath() const noexcept {
+    return path_;
+  }
 
  private:
   std::string path_;
