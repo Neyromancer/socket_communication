@@ -116,23 +116,24 @@ Socket UdpConnection::Accept() {
 }
 
 bool UdpConnection::Send(const std::string &data) {
-  bool result = false;
+  auto result = true;
   auto data_sz = data.size();
   auto total = 0;
   char *data_buf = const_cast<char *>(data.c_str());
   auto data_sent = 0;
   if (IsConnected()) {
     while (total < data_sz) {
-      // maybe it instead of data.size() i have to set size to
-      // a value quel to the size of a datagram but not to
+      // maybe instead of data.size() i have to set size to
+      // a value equel to the size of a datagram but not to
       // the amount of value passed with data. The same amount of data
       // will be sent as it is sent now.
       if ((data_sent = send(GetSocket().GetSocket(), data_buf + total, 
-                            data_sz - total, 0)) < 0)
+                            data_sz - total, 0)) < 0) {
+        result = false;
         break;
+      }
 
       total += data_sent;
-      result = true;
     }
   } else {
   if (addr_.sin_port != htons(GetPort()) ||
@@ -143,11 +144,12 @@ bool UdpConnection::Send(const std::string &data) {
     while (total < data_sz) {
       if ((data_sent = sendto(GetSocket().GetSocket(), data_buf + total, 
                               data_sz - total, 0, (struct sockaddr *)&addr_, 
-                              sizeof(addr_))) < 0)
+                              sizeof(addr_))) < 0) {
+        result = false;
         break;
+      }
 
       total += data_sent;
-      result = true;
     }
   }
 

@@ -1,7 +1,13 @@
 /// \file unix_connection.h
 /// \brief Class representing Unix connection.
 /// \author
-/// \date 13.10.2018
+/// \date 14.10.2018
+
+#include <sys/un.h>
+
+#include <string>
+
+#include "connection/connection.h"
 
 #ifndef SOCKET_COMMUNICATION_UNIX_CONNECTION_UNIX_CONNECTION_H_
 #define SOCKET_COMMUNICATION_UNIX_CONNECTION_UNIX_CONNECTION_H_
@@ -40,6 +46,8 @@ class UnixConnection : public Connection {
   /// \return Result of setting connection.
   bool Connect() override;
 
+  bool Listen() override;
+
   /// \brief Accept incoming connection.
   /// \return Socket class object.
   Socket Accept() override;
@@ -73,7 +81,13 @@ class UnixConnection : public Connection {
   }
 
  private:
+  /// \brief Initialize sockaddr_un structure.
+  void InitSockAddr();
+
+  bool IsValidPath(const std::string &);
+
   std::string path_;
+  struct sockaddr_un addr_;
 };
 
 }  // namespace socket_communication
