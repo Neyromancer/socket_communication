@@ -24,7 +24,7 @@ class UdpConnection : public Connection {
   explicit UdpConnection(const std::string &ip_addr, int32_t port);
 
   /// \brief UdpConnection destructor.
-  ~UdpConnection();
+  ~UdpConnection() = default;
 
   /// \brief UdpConnection copy constructor.
   /// \param[in] udp_connection UdpConnection object.

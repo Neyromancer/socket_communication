@@ -1,7 +1,7 @@
 /// \file unix_connection.h
 /// \brief Class representing Unix connection.
 /// \author
-/// \date 14.10.2018
+/// \date 15.10.2018
 
 #include <sys/un.h>
 
@@ -80,6 +80,16 @@ class UnixConnection : public Connection {
     return path_;
   }
 
+  /// \brief Set backlog.
+  /// \param[in] backlog Backlog.
+  void SetBacklog(int32_t backlog);
+
+  /// \brief Return backlog.
+  /// \return Backlog.
+  int32_t GetBacklog() const noexcept {
+    return backlog_;
+  }
+
  private:
   /// \brief Initialize sockaddr_un structure.
   void InitSockAddr();
@@ -88,6 +98,7 @@ class UnixConnection : public Connection {
 
   std::string path_;
   struct sockaddr_un addr_;
+  int32_t backlog_;
 };
 
 }  // namespace socket_communication

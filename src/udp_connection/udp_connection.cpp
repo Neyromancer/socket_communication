@@ -1,12 +1,11 @@
 /// \file udp_connection.cpp
 /// \brief UdpConnection class implementation.
 /// \author
-/// \date 13.10.2018
+/// \date 15.10.2018
 
 #include "udp_connection/udp_connection.h"
 
 #include <arpa/inet.h>
-#include <cstring>
 #include <netinet/udp.h>
 #include <sys/select.h>
 #include <sys/time.h>
@@ -28,8 +27,6 @@ UdpConnection::UdpConnection(const std::string &ip_addr, int32_t port)
     : Connection(ip_addr, port), domain_{AF_INET} {
   InitSockaddr();
 }
-
-UdpConnection::~UdpConnection() {}
 
 bool UdpConnection::Connect() {
   if (addr_.sin_port != htons(GetPort()) ||
@@ -74,7 +71,8 @@ Socket UdpConnection::Accept() {
     // throw here
     std::cout << "Socket does not exist" << std::endl;
   }
-  
+ 
+  // we have to check this because we use select() 
   if (GetSocket().GetSocket() >= FD_SETSIZE) {
     //throw here
     std::cout << "Wrong socket" << std::endl;
@@ -91,8 +89,7 @@ Socket UdpConnection::Accept() {
   tv.tv_usec = 0;
   
   auto tmp_socket = GetSocket().GetSocket() + 1;
-  auto retval = 0;
-  if ((retval = select(tmp_socket, &readfds, NULL, NULL, &tv) < 0)) {
+  if (select(tmp_socket, &readfds, NULL, NULL, &tv) < 0) {
     std::cout << "select function failed" << std::endl;
     // log any errors occurred here.
 
@@ -215,7 +212,7 @@ std::string UdpConnection::Receive() const {
     socklen_t size = sizeof(addr_);
     do {
       if ((data_read = recvfrom(GetSocket().GetSocket(), buf, kBufSize, 
-                                MSG_DONTWAIT, (struct sockaddr *)&addr_, &size)) 
+                                MSG_DONTWAIT, (struct sockaddr *)&addr_, &size))
                                 < 0)
         break;
 
