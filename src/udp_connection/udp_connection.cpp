@@ -33,11 +33,13 @@ bool UdpConnection::Connect() {
       addr_.sin_addr.s_addr != GetIp())
     InitSockaddr();
 
+  auto result = false;
   if (!GetSocket().Exist()) {
     //throw here
     std::cout << "Socket does not exist" << std::endl;
+    result = !Disconnect(GetSocket());
   }
-  auto result = false;
+
   if (!connect(GetSocket().GetSocket(), (struct sockaddr *)&addr_, 
                sizeof(addr_)))
     result = Connection::Connect();
@@ -51,13 +53,15 @@ bool UdpConnection::Listen() {
     InitSockaddr(); 
 
   if (bind(GetSocket().GetSocket(), (struct sockaddr *)&addr_,
-           sizeof(addr_)) < 0)
-    return false;
+           sizeof(addr_)) < 0) {
+    return !Disconnect(GetSocket());
     // log errors occured here
+  }
 
-  if (listen(GetSocket().GetSocket(), backlog_) < 0)
-    return false;
+  if (listen(GetSocket().GetSocket(), backlog_) < 0) {
+    return !Disconnect(GetSocket());
     // log errors occured here
+  }
 
   return true;
 }
@@ -70,12 +74,14 @@ Socket UdpConnection::Accept() {
   if (!GetSocket().Exist()) {
     // throw here
     std::cout << "Socket does not exist" << std::endl;
+    Disconnect(GetSocket());
   }
  
   // we have to check this because we use select() 
   if (GetSocket().GetSocket() >= FD_SETSIZE) {
     //throw here
     std::cout << "Wrong socket" << std::endl;
+    Disconnect(GetSocket());
   }
 
   fd_set readfds {};

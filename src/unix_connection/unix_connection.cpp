@@ -39,6 +39,7 @@ bool UnixConnection::Connect() {
   if (!GetSocket().Exist()) {
     // throw here
     std::cout << "Socket does not exitst" << std::endl;
+    Disconnect(GetSocket());
   }
 
   auto result = false;
@@ -59,14 +60,14 @@ bool UnixConnection::Listen() {
     // throw here
     std::cout << "Failed to bind socket | error " << std::strerror(errno) 
               << std::endl;
-    result = false;
+    result = !Disconnect(GetSocket());
   }
 
   if (listen(GetSocket().GetSocket(), backlog_)) {
     // throw here
     std::cout << "Failed to start listening | error " << std::strerror(errno)
               << std::endl;
-    result = false;
+    result = !Disconnect(GetSocket());
   }
 
   return result;
@@ -79,11 +80,13 @@ Socket UnixConnection::Accept() {
   if (!GetSocket().Exist()) {
     // throw here
     std::cout << "socket does not exist" << std::endl;
+    Disconnect(GetSocket());
   }
 
   if (GetSocket().GetSocket() >= FD_SETSIZE) {
     // throw here
     std::cout << "Socket exceeds FD_SETSIZE" << std::endl;
+    Disconnect(GetSocket());
   }
 
   fd_set readfds {};
