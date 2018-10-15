@@ -102,6 +102,7 @@ Socket UdpConnection::Accept() {
   }
 
   auto new_socketfd = -1;
+  Socket new_socket {};
   // build a method or a field in Socket class to utilize the following test
   if (FD_ISSET(GetSocket().GetSocket(), &readfds) /*||
       FD_ISSET(GetSocket().GetSocket(), &writefds)*/) {
@@ -111,11 +112,14 @@ Socket UdpConnection::Accept() {
       std::cout << "Couldn't created new socket" << std::endl;
       // log any errors occurred here.
     }
+    new_socket.SetSocket(std::move(new_socketfd));
+    new_socket.SetIsReadable(true);
   }
 
   FD_CLR(GetSocket().GetSocket(), &readfds);
   //FD_CLR(GetSocket().GetSocket(), &writefds);
-  return std::move(Socket(std::move(new_socketfd)));
+//  return std::move(Socket(std::move(new_socketfd)));
+  return std::move(new_socket);
 }
 
 bool UdpConnection::Send(const std::string &data) {
