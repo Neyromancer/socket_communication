@@ -1,7 +1,7 @@
 /// \file socket.cpp
 /// \brief Socket class implementation
 /// \author
-/// \date 13.10.2018
+/// \date 15.10.2018
 
 #include "socket/socket.h"
 
@@ -12,9 +12,11 @@
 
 namespace socket_communication {
 
-Socket::Socket() : socketfd_{-1}, domain_{-1}, type_{-1}, protocol_{-1} {}
+Socket::Socket() : socketfd_{-1}, domain_{-1}, type_{-1}, protocol_{-1},
+                   is_readable_{false}, is_writable_{false} {}
 
-Socket::Socket(int32_t &&socketfd) : domain_{-1}, type_{-1}, protocol_{-1} {
+Socket::Socket(int32_t &&socketfd) : domain_{-1}, type_{-1}, protocol_{-1}, 
+                                     is_readable_{false}, is_writable_{false} {
   socketfd_ = std::move(socketfd);
 }
 
@@ -48,4 +50,12 @@ bool Socket::SetNoBlocking() {
   return true;
 }
 
-} // namespace socket_communication
+void Socket::SetIsReadable(bool is_readable) {
+  is_readable_ = is_readable;
+}
+
+void Socket::SetIsWritable(bool is_writable) {
+  is_writable_ = is_writable;
+}
+
+}  // namespace socket_communication

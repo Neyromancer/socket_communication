@@ -1,7 +1,7 @@
 /// \file connection.h
 /// \brief Abstract class which implements connection.
 /// \author
-/// \date 13.10.2018
+/// \date 16.10.2018
 
 #ifndef SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
 #define SOCKET_COMMUNICATION_CONNECTION_CONNECTION_H_
@@ -32,13 +32,9 @@ class Connection {
 
   Connection &operator=(Connection &&) = default;
 
-  virtual bool Connect() = 0;
-
-  virtual bool Listen() = 0;
+  virtual bool Connect();
 
   virtual bool Disconnect(Socket socket);
-
-  virtual Socket Accept() = 0;
 
   /// \brief Send data.
   /// \param[in] data Data to send.

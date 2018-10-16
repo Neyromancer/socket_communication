@@ -1,7 +1,7 @@
 /// \file udp_connection.h
 /// \brief Class which represents UDP connection.
 /// \author
-/// \date 13.10.2018
+/// \date 16.10.2018
 
 #ifndef SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
 #define SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_
@@ -21,10 +21,10 @@ class UdpConnection : public Connection {
   /// \brief UdpConnection class constructor.
   /// \param[in] ip addr IP.
   /// \param[n] port Port.
-  UdpConnection(const std::string &ip_addr, int32_t port);
+  explicit UdpConnection(const std::string &ip_addr, int32_t port);
 
   /// \brief UdpConnection destructor.
-  ~UdpConnection();
+  ~UdpConnection() = default;
 
   /// \brief UdpConnection copy constructor.
   /// \param[in] udp_connection UdpConnection object.
@@ -42,18 +42,6 @@ class UdpConnection : public Connection {
   /// \param[in] udp_connection UdpConnection object. 
   UdpConnection &operator=(UdpConnection &&udp_connectino) =  default;
 
-  /// \brief Setup connection.
-  /// \return Result of setting connection.
-  bool Connect() override;
-
-  /// \brief Wait for incoming connectoin.
-  /// \return result of of listening for incoming connections.
-  bool Listen() override;
-
-  /// \brief Accept incoming connection.
-  /// \return Socket class object.
-  Socket Accept() override;
-
   /// \brief Send data over connection.
   /// param[in] data Data.
   /// \return Result of sending data over connection.
@@ -68,6 +56,8 @@ class UdpConnection : public Connection {
   /// \return Received data. 
   std::string Receive() const override;
 
+  /// \brief Set domain.
+  /// \param[in] domain Domain.
   void SetDomain(int32_t domain);
 
  private:
@@ -79,6 +69,6 @@ class UdpConnection : public Connection {
   int32_t backlog_;
 };
 
-} // namespace socket_community
+}  // namespace socket_community
 
 #endif // SOCKET_COMMUNICATION_UDP_CONNECTION_UDP_CONNECTION_H_

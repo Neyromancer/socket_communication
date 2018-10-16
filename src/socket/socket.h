@@ -1,7 +1,7 @@
 /// \file socket.h
 /// \brief Class which represents socket.
 /// \author
-/// \date 13.10.2018
+/// \date 15.10.2018
 
 #ifndef SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
 #define SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
@@ -77,12 +77,34 @@ class Socket {
   bool ShutDown();
 
   bool SetNoBlocking();
+  
+  /// \brief Set socket condition.
+  /// \param[in] is_reading Socket condition.
+  void SetIsReadable(bool is_readable);
+  
+  /// \brief Return if the socket is for reading from.
+  /// \return Socket condition.
+  bool IsReadable() const noexcept {
+    return is_readable_;
+  }
+
+   /// \brief Set socket condition.
+  /// \param[in] is_writable Socket condition. 
+  void SetIsWritable(bool is_writable);
+  
+  /// \brief Return if the socket is for writing in.
+  /// \return Socket condition.
+  bool IsWritable() const noexcept {
+    return is_writable_;
+  }
 
  private:
   int32_t socketfd_;
   int32_t domain_;
   int32_t type_;
   int32_t protocol_;
+  bool is_readable_;
+  bool is_writable_;
 };
 
 }  // namespace socket_communication
