@@ -1,7 +1,7 @@
 /// \file unix_connection.h
 /// \brief Class representing Unix connection.
 /// \author
-/// \date 15.10.2018
+/// \date 16.10.2018
 
 #include <sys/un.h>
 
@@ -46,11 +46,11 @@ class UnixConnection : public Connection {
   /// \return Result of setting connection.
   bool Connect() override;
 
-  bool Listen() override;
+  bool Listen();
 
   /// \brief Accept incoming connection.
   /// \return Socket class object.
-  Socket Accept() override;
+  Socket Accept();
 
   /// \brief send data over connection.
   /// \param[in] data data.

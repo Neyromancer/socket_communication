@@ -1,7 +1,7 @@
 /// \brief unix_connection.cpp
 /// \brief UnixConnection class definition.
 /// \author
-/// \date 15.10.2018
+/// \date 16.10.2018
 
 #include "unix_connection/unix_connection.h"
 
@@ -36,13 +36,13 @@ bool UnixConnection::Connect() {
   if (std::strncmp(addr_.sun_path, path_.c_str(), path_.size()))
     InitSockAddr();
 
+  auto result = false;
   if (!GetSocket().Exist()) {
     // throw here
     std::cout << "Socket does not exitst" << std::endl;
-    Disconnect(GetSocket());
+    result = Disconnect(GetSocket());
   }
 
-  auto result = false;
   if (!connect(GetSocket().GetSocket(), (struct sockaddr *)&addr_,
                sizeof(addr_)))
     result = Connection::Connect();
@@ -60,14 +60,14 @@ bool UnixConnection::Listen() {
     // throw here
     std::cout << "Failed to bind socket | error " << std::strerror(errno) 
               << std::endl;
-    result = !Disconnect(GetSocket());
+    result = Disconnect(GetSocket());
   }
 
   if (listen(GetSocket().GetSocket(), backlog_)) {
     // throw here
     std::cout << "Failed to start listening | error " << std::strerror(errno)
               << std::endl;
-    result = !Disconnect(GetSocket());
+    result = Disconnect(GetSocket());
   }
 
   return result;
