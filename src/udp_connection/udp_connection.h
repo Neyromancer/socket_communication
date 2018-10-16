@@ -66,7 +66,6 @@ class UdpConnection : public Connection {
 
   struct sockaddr_in addr_;
   int32_t domain_;
-  int32_t backlog_;
 };
 
 }  // namespace socket_community
