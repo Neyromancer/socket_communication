@@ -42,10 +42,6 @@ void Socket::CreateSocket(uint32_t domain, uint32_t type, uint32_t protocol) {
   socketfd_ = std::move(socket(domain, type, protocol));
 }
 
-bool Socket::ShutDown() {
-  return true;
-}
-
 bool Socket::SetNoBlocking() {
   return true;
 }

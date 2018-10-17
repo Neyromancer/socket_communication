@@ -1,7 +1,7 @@
 /// \file tcp_connection.cpp
 /// \brief TcpConnection class implementation.
 /// \author
-/// \date 15.10.2018
+/// \date 17.10.2018
 
 #include "tcp_connection/tcp_connection.h"
 
@@ -187,6 +187,23 @@ std::string TcpConnection::Receive() const {
 void TcpConnection::SetBackLog(int32_t backlog) {
   if (backlog > 0)
     backlog_ = backlog;
+}
+
+bool TcpConnection::ShutDown(Socket socket, int32_t how) {
+  if (!socket.Exist()) // log error
+    return false;
+
+  auto tmp = static_cast<int>(how) 
+  if ( tmp < 0 || tmp > 2) // log error
+    return false;
+
+  if (!IsConnected()) // log error
+    return false;
+
+  if (shutdown(socket.GetSocket(), how)) // log error
+    return false;
+
+  return true;
 }
 
 void TcpConnection::InitSockaddr() {

@@ -1,7 +1,7 @@
 /// \file tcp_connection.h
 /// \brief Class which represents UDP connection.
 /// \author
-/// \date 16.10.2018
+/// \date 17.10.2018
 
 #ifndef SOCKET_COMMUNICATION_TCP_CONNECTION_TCP_CONNECTION_H_
 #define SOCKET_COMMUNICATION_TCP_CONNECTION_TCP_CONNECTION_H_
@@ -81,6 +81,12 @@ class TcpConnection : public Connection {
   int32_t GetBacklog() const noexcept {
     return backlog_;
   }
+
+  /// \brief Sets additional control over closing a socket.
+  /// \param[in] socket Socket.
+  /// \param[in] how Type of shutdown.
+  /// \return Result of closing a socket.
+  bool ShutDown(Socket socket, int32_t how);
 
  private:
   /// \brief Initialize struct sockaddr_in.

@@ -1,7 +1,7 @@
 /// \file socket.h
 /// \brief Class which represents socket.
 /// \author
-/// \date 15.10.2018
+/// \date 17.10.2018
 
 #ifndef SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
 #define SOCKET_COMMUNICATION_SOCKET_SOCKET_H_
@@ -73,8 +73,6 @@ class Socket {
   inline bool Exist() const noexcept {
     return socketfd_ != -1;
   }
-
-  bool ShutDown();
 
   bool SetNoBlocking();
   
