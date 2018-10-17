@@ -1,7 +1,7 @@
 /// \file socket.cpp
 /// \brief Socket class implementation
 /// \author
-/// \date 15.10.2018
+/// \date 17.10.2018
 
 #include "socket/socket.h"
 
@@ -40,10 +40,6 @@ void Socket::CreateSocket(uint32_t domain, uint32_t type, uint32_t protocol) {
   // SetType(type);
   // SetProtocol(protocol);
   socketfd_ = std::move(socket(domain, type, protocol));
-}
-
-bool Socket::SetNoBlocking() {
-  return true;
 }
 
 void Socket::SetIsReadable(bool is_readable) {

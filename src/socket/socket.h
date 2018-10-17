@@ -74,8 +74,6 @@ class Socket {
     return socketfd_ != -1;
   }
 
-  bool SetNoBlocking();
-  
   /// \brief Set socket condition.
   /// \param[in] is_reading Socket condition.
   void SetIsReadable(bool is_readable);

@@ -88,6 +88,11 @@ class TcpConnection : public Connection {
   /// \return Result of closing a socket.
   bool ShutDown(Socket socket, int32_t how);
 
+  /// \brief Sets passed socket in non-blocking state.
+  /// \param[in] socket Socket.
+  /// \return Result of setting socket in non-blocking state.
+  bool SetNonBlocking(Socket socket);
+
  private:
   /// \brief Initialize struct sockaddr_in.
   void InitSockaddr();

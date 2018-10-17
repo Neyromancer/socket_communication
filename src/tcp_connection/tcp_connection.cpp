@@ -206,6 +206,19 @@ bool TcpConnection::ShutDown(Socket socket, int32_t how) {
   return true;
 }
 
+bool TcpConnection::SetNonBlocking(Socket socket) {
+  int flags{};
+#if defined (O_NONBLOCK)
+  if (-1 == (flags = fcntl(socket.GetSocket(), F_GETFL, 0)))
+    flags = 0;
+  return (-1 != fcntl(socket.GetSocket(), F_SETFL, flags | O_NONBLOCK)
+);
+#else
+  flags = 1;
+  return (-1 != ioctl(socket.GetSocket(), FIOBIO, &flags));
+#endif
+}
+
 void TcpConnection::InitSockaddr() {
   memset(&addr_, 0, sizeof(addr_));
   addr_.sin_family = domain_;
