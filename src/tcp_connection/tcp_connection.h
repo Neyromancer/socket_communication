@@ -48,11 +48,11 @@ class TcpConnection : public Connection {
 
   /// \brief Wait for incoming connectoin.
   /// \return result of of listening for incoming connections.
-  bool Listen() override;
+  bool Listen();
 
   /// \brief Accept incoming connection.
   /// \return Socket class object.
-  Socket Accept() override;
+  Socket Accept();
 
   /// \brief Send data over connection.
   /// param[in] data Data.

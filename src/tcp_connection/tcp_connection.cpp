@@ -193,7 +193,7 @@ bool TcpConnection::ShutDown(Socket socket, int32_t how) {
   if (!socket.Exist()) // log error
     return false;
 
-  auto tmp = static_cast<int>(how) 
+  auto tmp = static_cast<int>(how);
   if ( tmp < 0 || tmp > 2) // log error
     return false;
 
@@ -215,7 +215,7 @@ bool TcpConnection::SetNonBlocking(Socket socket) {
 );
 #else
   flags = 1;
-  return (-1 != ioctl(socket.GetSocket(), FIOBIO, &flags));
+  return (-1 != ioctl(socket.GetSocket(), FIONBIO, &flags));
 #endif
 }
 
