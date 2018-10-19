@@ -5,9 +5,11 @@
 
 #include "connection/connection.h"
 
+extern "C" {
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
+}
 
 #include <cstring>
 #include <utility>

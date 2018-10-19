@@ -5,12 +5,14 @@
 
 #include "udp_connection/udp_connection.h"
 
+extern "C" {
 #include <arpa/inet.h>
 #include <netinet/udp.h>
 #include <sys/select.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
+}
 
 #include <cerrno>
 #include <cstring>

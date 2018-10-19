@@ -3,9 +3,9 @@
 /// \author
 /// \date 16.10.2018
 
+extern "C" {
 #include <sys/un.h>
-
-#include <string>
+}
 
 #include "connection/connection.h"
 

@@ -6,8 +6,10 @@
 #ifndef SOCKET_COMMUNICATION_TCP_CONNECTION_TCP_CONNECTION_H_
 #define SOCKET_COMMUNICATION_TCP_CONNECTION_TCP_CONNECTION_H_
 
+extern "C" {
 #include <sys/socket.h>
 #include <netinet/in.h>
+}
 
 #include "connection/connection.h"
 #include "socket/socket.h"
